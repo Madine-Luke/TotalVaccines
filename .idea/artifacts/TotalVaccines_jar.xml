@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TotalVaccines:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TotalVaccines_jar</output-path>
+    <root id="archive" name="TotalVaccines.jar">
+      <element id="module-output" name="TotalVaccines" />
+    </root>
+  </artifact>
+</component>
