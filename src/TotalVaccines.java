@@ -40,13 +40,15 @@ public class TotalVaccines {
                 }
             }
 
-            context.write(new Text(), new Text(remain));
+            context.write(new Text(date), new Text(remain));
         }
     }
 
     public static class TotalVaccinesReducer extends Reducer<Text, Text, Text, Text> {
+        int[] storage = new int[12];
+        int max = 0;
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
-            int[] doses = new int[12];
+            int[] doses = storage;
             int sum = 0;
             for (Text val : values) {
                 StringTokenizer itr = new StringTokenizer(val.toString(), ",");
@@ -57,8 +59,14 @@ public class TotalVaccines {
             for (int dose : doses) {
                 sum += dose;
             }
+            if (sum > max) {
+                max = sum;
+            }
+        }
 
-            context.write(new Text("Total number of vaccinations: " + sum), new Text());
+        @Override
+        protected void cleanup(Context context) throws IOException, InterruptedException {
+            context.write(new Text("Total number of vaccinations: " + max), new Text());
         }
     }
 
